@@ -2,6 +2,9 @@ import { AllImages } from "./images/AllImages.jsx";
 import { ImageDetails } from "./images/ImageDetails.jsx";
 import { UploadPage } from "./UploadPage.jsx";
 import { LoginPage } from "./LoginPage.jsx";
+import { Routes, Route } from "react-router";
+import { MainLayout } from "./MainLayout.jsx";
+import { VALID_ROUTES } from "../../shared/ValidRoutes.js";
 
 function App() {
     const POSSIBLE_PAGES = [
@@ -11,7 +14,15 @@ function App() {
         <LoginPage />
     ];
 
-    return POSSIBLE_PAGES[0];
+    //return POSSIBLE_PAGES[0];
+    return <Routes>
+        <Route path={VALID_ROUTES.HOME} element={<MainLayout />}>
+        <Route index element={<AllImages />}></Route>
+        <Route path={VALID_ROUTES.IMAGE} element={<ImageDetails />} />
+        <Route path={VALID_ROUTES.UPLOAD} element={<UploadPage />} />
+        <Route path={VALID_ROUTES.LOGIN} element={<LoginPage />} />
+    </Route>
+    </Routes>
 }
 
 export default App;
