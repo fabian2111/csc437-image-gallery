@@ -52,7 +52,7 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
                         onChange={e => setNameInput(e.target.value)}
                     />
                 </label>
-                <button disabled={nameInput.length === 0 && isSending} onClick={ () => {setSendState(true);  handleSubmitPressed() }  }>Submit</button>
+                <button disabled={nameInput.length === 0 || isSending} onClick={ () => {setSendState(true);  handleSubmitPressed() }  }>Submit</button>
                 <button onClick={() => setIsEditingName(false)}>Cancel</button>
             </div>
         );
