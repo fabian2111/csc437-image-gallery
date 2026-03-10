@@ -9,6 +9,7 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
 
     function handleEditPressed() {
         setIsEditingName(true);
+        setErrorState(false);
         setNameInput(initialValue || "");
     }
     async function handleSubmitPressed() {
