@@ -13,7 +13,6 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
     }
     async function handleSubmitPressed() {
         // TODO
-        setSendState(true);
         setErrorState(false);
         let sendData = -1;
         sendData = await fetch(`/api/images/${imageId}`, {
@@ -21,7 +20,7 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify( { name: nameInput} ) })
+            body: JSON.stringify( { name: nameInput } ) })
         if(sendData.status != -1){
             setSendState(false);
             setIsEditingName(false);
@@ -32,15 +31,19 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
                 setErrorState(true);
 
             }
-
         }
+        setSendState(false);
     }
 
     if (isEditingName) {
         return (
             <div style={{ margin: "1em 0" }}>
                 <label>
-                    New Name
+                    {!isSending &&  <p>New Name</p>}
+                    <div aria-live="polite">
+                        {isSending && <p>Renaming image...</p>}
+                     </div>
+
                     <input
                         required
                         style={{ marginLeft: "0.5em" }}
@@ -49,16 +52,13 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
                         onChange={e => setNameInput(e.target.value)}
                     />
                 </label>
-                <button disabled={nameInput.length === 0 && isSending} onClick={handleSubmitPressed}>Submit</button>
+                <button disabled={nameInput.length === 0 && isSending} onClick={ () => {setSendState(true);  handleSubmitPressed() }  }>Submit</button>
                 <button onClick={() => setIsEditingName(false)}>Cancel</button>
             </div>
         );
     } else {
         return (
             <div style={{ margin: "1em 0" }}>
-                <div aria-live="polite">
-                    {isSending && <p>Renaming image...</p>}
-                </div>
 
 
                 <div aria-live="polite" >

@@ -35,9 +35,14 @@ export function registerImageRoutes(app, imageProvider) {
 
     app.use(express.json())
 
-    app.put("/api/images/:imageId", (req, res) => {
+    app.put("/api/images/:imageId", async (req, res) => {
+        await waitDuration(1000)
+
         const MAX_NAME_LENGTH = 100;
-        const updateImg = imageProvider.updateImageName(req.params.imageId, req.body.name);
+
+        const updateImg = imageProvider.updateImageName(req.params.imageId, req.body.name)
+
+        //const updateImg = imageProvider.updateImageName(req.params.imageId, req.body.name);
 
         if(updateImg == 404){
             res.status(404).send({
@@ -60,16 +65,15 @@ export function registerImageRoutes(app, imageProvider) {
         }
 
         else if(updateImg == 0) {
-            res.status(404).send({
+                res.status(404).send({
                 error: "Not Found",
-                message: "Incorrect Image"
+                message: "Could not find image"
             });
         }
+
         else {
             res.status(204).send();
         }
-
-
 
     })
 

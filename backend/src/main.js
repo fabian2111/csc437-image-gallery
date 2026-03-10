@@ -26,10 +26,6 @@ app.get(Object.values(VALID_ROUTES), (req, res) => {
     res.sendFile("index.html", { root: STATIC_DIR });
 })
 
- //onst mongo = connectMongo();
-//const images = new ImageProvider(mongo);
-//images.getAllImages().then(img => console.log(img))
-
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}.  CTRL+C to stop.`);
 });

@@ -89,8 +89,6 @@ export class ImageProvider {
         //const imgId = new ObjectId(imageId);
 
         //Blue merle herding sheep
-
-        //console.log(newName.length)
         if(newName == undefined){
             return 400;
         }
