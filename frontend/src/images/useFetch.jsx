@@ -33,15 +33,12 @@ export default function useFetch(imageId, authToken){
                         "Authorization": `Bearer ${authToken.authToken}`
                     }
                 })
-                //console.log(dbImg.status)
 
                 if(dbImg.status == 404){
                     throw new Error(`Error: HTTP ${dbImg.status} ${dbImg.statusText}`)
                 }
 
                 const img = await dbImg.json();
-
-                //console.log(dbImg)
 
                 _setImageData(img[0])
                 setImageName(img[0].name)

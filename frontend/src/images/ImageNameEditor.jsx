@@ -6,6 +6,7 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName, authTo
 
     const [isSending, setSendState] = useState(false);
     const [sendError, setErrorState] = useState(false);
+    const [errMsg, setErrorMsg] = useState("");
 
     function handleEditPressed() {
         setIsEditingName(true);
@@ -15,6 +16,7 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName, authTo
     async function handleSubmitPressed() {
         // TODO
         setErrorState(false);
+        setErrorMsg("")
         let sendData = -1;
         sendData = await fetch(`/api/images/${imageId}`, {
             method: "PATCH",
@@ -31,6 +33,13 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName, authTo
             }
             else{
                 setErrorState(true);
+                if(sendData.status == 403){
+                    setErrorMsg("This user does not own the image");
+                }
+                else{
+                    setErrorMsg(sendData.statusText);
+                }
+
 
             }
         }
@@ -61,10 +70,8 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName, authTo
     } else {
         return (
             <div style={{ margin: "1em 0" }}>
-
-
                 <div aria-live="polite" >
-                    {sendError && <p>Error in renaming image.</p>}
+                    {sendError && <p>Error in renaming image: {errMsg}</p>}
                 </div>
                 <button onClick={handleEditPressed}>Edit name</button>
             </div>

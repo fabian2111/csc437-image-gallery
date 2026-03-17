@@ -25,8 +25,6 @@ export function UploadPage(authToken) {
 
     const [result, submitAction, isPending] = useActionState(
         async (previousState, formData) => {
-            // const image = formData.get("image");
-            // const name = formData.get("name");
 
             const response = await fetch("/api/images", {
                 method: "POST",
@@ -35,8 +33,6 @@ export function UploadPage(authToken) {
                 },
                 body: formData
             })
-
-            console.log(response)
 
             if(!response.ok){
                 setFileURL(null);
@@ -47,18 +43,14 @@ export function UploadPage(authToken) {
             }
             else{
                 const imgJson = await response.json();
-                // console.log(imgJson);
-                // setFileURL(null);
-                // navigate(`/images/${imgJson.imageId}`);
+                setFileURL(null);
+                navigate(`/images/${imgJson.imageId}`);
             }
             return {
                     type: "success",
                     message: "Successfully uploaded image"
                 }
-
-
         }
-
     )
 
     return (

@@ -45,7 +45,6 @@ export function registerAuthRoutes(app, credentialsprovider){
         else{
 
             const addUser = await credentialsprovider.registerUser(req.body.username, req.body.email, req.body.password);
-            //console.log(addUser);
 
             if(addUser){
                 const token = await generateAuthToken(username);

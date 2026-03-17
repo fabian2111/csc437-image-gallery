@@ -100,7 +100,6 @@ export class ImageProvider {
 
         else if(ObjectId.isValid(imageId)){
             const updatedDoc = await this.collection.updateOne( { _id: new ObjectId(imageId) } , { $set: { name: newName} });
-            //console.log(updatedDoc.matchedCount)
             return updatedDoc.matchedCount;
 
         }

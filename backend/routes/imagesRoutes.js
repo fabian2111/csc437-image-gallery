@@ -12,6 +12,8 @@ export function registerImageRoutes(app, imageProvider) {
 
     app.use("/api/images{/*all}", verifyAuthToken);
 
+    app.use(express.json())
+
     app.get("/api/images",  async (req, res) => {
         //const images = new ImageProvider(mongo);
 
@@ -36,10 +38,8 @@ export function registerImageRoutes(app, imageProvider) {
 
         const newImageId = await imageProvider.createImage(src, name, authorId);
 
-        console.log(newImageId)
-
-        res.status(204).send({
-            imageId: newImageId
+        res.status(201).send({
+            imageId: `${newImageId}`
         })
     }
 );
@@ -47,8 +47,6 @@ export function registerImageRoutes(app, imageProvider) {
     app.get("/api/images/:imageId", async (req, res) => {
 
         const img = await imageProvider.getOneImage(req.params.imageId);
-
-        //console.log(img)
 
         if(img == null){
             res.status(404).send({
@@ -62,28 +60,12 @@ export function registerImageRoutes(app, imageProvider) {
 
     })
 
-
-    app.use(express.json())
-
     app.patch("/api/images/:imageId", async (req, res) => {
-
-        //if(req.userInfo.username === req.body.username){
-
         await waitDuration(1000);
-
 
         const MAX_NAME_LENGTH = 100;
 
         const img = await imageProvider.getOneImage(req.params.imageId);
-
-
-        //console.log(img);
-        //const newImg = await img.json();
-
-         console.log(img[0].author.username)
-        console.log(req.userInfo.username)
-
-        //console.log(img[0].author.username != req.userInfo.username)
 
         if(img[0].author.username != req.userInfo.username){
             res.status(403).send({
@@ -94,7 +76,6 @@ export function registerImageRoutes(app, imageProvider) {
         else{
 
         const updateImg = await imageProvider.updateImageName(req.params.imageId, req.body.name)
-        console.log(updateImg);
 
         if(updateImg == 404){
             res.status(404).send({

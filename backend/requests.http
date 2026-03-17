@@ -10,11 +10,10 @@ Content-Type: application/json # Content-Type header is a must if you're sending
 
 ### 204 Worked
 PATCH http://localhost:3000/api/images/69aa58691b3aa526bf385406
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNodW5reWxvdmVyMjMiLCJpYXQiOjE3NzM3MTYwNDUsImV4cCI6MTc3MzgwMjQ0NX0.nIF8SvdN-cEmiZD2ocXz315YoXYcw0T1Fco4KhDO0wM
+#Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNzczNzM4OTEwLCJleHAiOjE3NzM4MjUzMTB9.m63xi9f2kBqYM988fZcLhrhso0ZYrkmg7CxD5MAfIKk
 Content-Type: application/json
 
 {
-    "username": "chunkylover23",
     "name": "new-name"
 }
 
@@ -77,7 +76,7 @@ Content-Type: application/json
 
 {
     "username": "user1",
-    "password": "password123"
+    "password": "password"
 }
 
 ###

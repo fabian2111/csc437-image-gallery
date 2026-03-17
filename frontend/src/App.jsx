@@ -9,16 +9,8 @@ import { useState } from "react";
 import { ProtectedRoute } from "./ProtectedRoute.jsx"
 
 function App() {
-    const POSSIBLE_PAGES = [
-        <AllImages />,
-        <ImageDetails imageId={"0"} />,
-        <UploadPage />,
-        <LoginPage />
-    ];
-
     const [authToken, setAuthToken] = useState("");
 
-    //return POSSIBLE_PAGES[0];
     return <Routes>
         <Route path={VALID_ROUTES.HOME} element={<MainLayout />}>
 
@@ -30,11 +22,9 @@ function App() {
             <ImageDetails authToken={authToken}></ImageDetails>
         </ProtectedRoute>} />
 
-        {/* <Route path={VALID_ROUTES.UPLOAD} element={<ProtectedRoute authToken={authToken}>
-            <UploadPage></UploadPage>
-        </ProtectedRoute>} /> */}
-
-        <Route path={VALID_ROUTES.UPLOAD} element={<UploadPage authToken={authToken}/>} />
+        <Route path={VALID_ROUTES.UPLOAD} element={<ProtectedRoute authToken={authToken}>
+            <UploadPage authToken={authToken}></UploadPage>
+        </ProtectedRoute>} />
 
         <Route path={VALID_ROUTES.LOGIN} element={<LoginPage isRegistering={false} setAuthToken={setAuthToken}/>} />
         <Route path={VALID_ROUTES.REGISTER} element={<LoginPage isRegistering={true} setAuthToken={setAuthToken}/>} />

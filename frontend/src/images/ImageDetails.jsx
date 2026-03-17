@@ -13,53 +13,9 @@ export function ImageDetails(authToken) {
 
     const [image, isFetching, errorData, imageName, setImageName] = useFetch(imageId, authToken);
 
-    //
-    //const [imageName, setImageName] = useState(image.name);
-
-
-    // const [image, _setImage] = useState();
-    // const [isFetching, setFetchState] = useState(false);
-    // const [errorData, setErrorData] = useState("");
-
     function updateImageName(newName){
         setImageName(newName);
     }
-
-    // useEffect( () => {
-    //     async function setName() {
-
-    //          return await setImageName(image.name)
-    //     }
-    //     setName();
-
-    // },[]  )
-
-
-    // async function addImage(){
-    //     setErrorData("")
-    //     try{
-    //             setFetchState(true)
-    //             const dbImg = await fetch(`/api/images/${imageId}`)
-    //             if(dbImg.status == 404){
-    //                 throw new Error(`Error: HTTP ${dbImg.status} ${dbImg.statusText}`)
-    //             }
-    //             const img = await dbImg.json();
-
-    //             _setImage(img[0])
-    //         }
-    //         catch(error){
-    //             setErrorData(error.message)
-    //             _setImage("")
-
-    //         } finally {
-    //             setFetchState(false);
-    //         }
-
-
-    // }
-
-    // addImage();
-
 
     //if (!image) {
        // return <h2>Image not found</h2>;

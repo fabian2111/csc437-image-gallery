@@ -12,7 +12,7 @@ export class CredentialsProvider {
 
     async registerUser(username, email, password){
        const existingUser = await this.collection.findOne({username: username});
-       //console.log(existingUser);
+
        if(existingUser != null){
             return false;
        }

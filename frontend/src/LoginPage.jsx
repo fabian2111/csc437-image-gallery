@@ -81,10 +81,10 @@ export function LoginPage( { isRegistering, setAuthToken } ) {
             }
             else{
                 const response = await loginUser(username, password);
-                //console.log(response.status)
+
                 if(response.status === 200){
                     const token = await response.json().then(res => res.token)
-                    //console.log(token);
+
                     setAuthToken(token);
                     navigate("/");
                     return {
