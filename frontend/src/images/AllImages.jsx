@@ -5,8 +5,8 @@ import { ImageGrid } from "./ImageGrid.jsx";
 import { useEffect } from "react";
 import useFetch from "./useFetch.jsx";
 
-export function AllImages() {
-    const [imageData, isFetching, errorData] = useFetch(null);
+export function AllImages(authToken) {
+    const [imageData, isFetching, errorData] = useFetch(null, authToken);
 
     return (
         <>

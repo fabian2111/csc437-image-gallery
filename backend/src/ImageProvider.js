@@ -83,12 +83,13 @@ export class ImageProvider {
         }
     }
 
-     updateImageName(imageId, newName) {
+    async updateImageName(imageId, newName) {
     // Do keep in mind the type of _id in the DB is ObjectId, not string
     // Use `new ObjectId(imageId)` to convert a string to an ObjectId.
         //const imgId = new ObjectId(imageId);
 
         //Blue merle herding sheep
+
         if(newName == undefined){
             return 400;
         }
@@ -98,7 +99,8 @@ export class ImageProvider {
         }
 
         else if(ObjectId.isValid(imageId)){
-            const updatedDoc = this.collection.updateOne( { _id: new ObjectId(imageId) } , { $set: { name: newName} });
+            const updatedDoc = await this.collection.updateOne( { _id: new ObjectId(imageId) } , { $set: { name: newName} });
+            //console.log(updatedDoc.matchedCount)
             return updatedDoc.matchedCount;
 
         }
@@ -106,13 +108,17 @@ export class ImageProvider {
             return 404;
 
         }
+    }
 
+    async createImage(src, name, authorId){
 
+        const newImage = await this.collection.insertOne({
+            src: src,
+            name: name,
+            authorId: authorId
+        });
 
-
-
-
-
+        return newImage.insertedId;
 
     }
 

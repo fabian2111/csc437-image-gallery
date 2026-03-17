@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
+export function ImageNameEditor({ imageId, initialValue, updateImageName, authToken }) {
     const [isEditingName, setIsEditingName] = useState(false);
     const [nameInput, setNameInput] = useState(initialValue || "");
 
@@ -17,9 +17,10 @@ export function ImageNameEditor({ imageId, initialValue, updateImageName }) {
         setErrorState(false);
         let sendData = -1;
         sendData = await fetch(`/api/images/${imageId}`, {
-            method: "PUT",
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
+                "Authorization": `Bearer ${authToken.authToken}`
             },
             body: JSON.stringify( { name: nameInput } ) })
         if(sendData.status != -1){

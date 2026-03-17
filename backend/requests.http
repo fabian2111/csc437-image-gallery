@@ -1,6 +1,7 @@
 ### Get all images.  Each request **MUST** be delimited by a triple hash
 # This is a comment
 GET http://localhost:3000/api/images
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWF0IjoxNzczNTU2MTUyLCJleHAiOjE3NzM2NDI1NTJ9.EUAO-TkwBbMcNLdGnYi9N5TkawhnHhzp5beKD4LSRF4
 
 ### A second example.  Each request **MUST** be delimited by a triple hash
 POST http://localhost:3000/api/test
@@ -8,16 +9,18 @@ Content-Type: application/json # Content-Type header is a must if you're sending
 # Request body separated from headers by newline
 
 ### 204 Worked
-PUT http://localhost:3000/api/images/69aa58691b3aa526bf385406
+PATCH http://localhost:3000/api/images/69aa58691b3aa526bf385406
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNodW5reWxvdmVyMjMiLCJpYXQiOjE3NzM3MTYwNDUsImV4cCI6MTc3MzgwMjQ0NX0.nIF8SvdN-cEmiZD2ocXz315YoXYcw0T1Fco4KhDO0wM
 Content-Type: application/json
 
 {
+    "username": "chunkylover23",
     "name": "new-name"
 }
 
 ###
 # 404 not found
-PUT http://localhost:3000/api/images/69aa58691
+PATCH  http://localhost:3000/api/images/69aa58691
 Content-Type: application/json
 
 {
@@ -26,7 +29,8 @@ Content-Type: application/json
 
 ###
 # 413 name too big
-PUT http://localhost:3000/api/images/69aa58691b3aa526bf385406
+PATCH http://localhost:3000/api/images/69aa58691b3aa526bf385406
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNodW5reWxvdmVyMjMiLCJpYXQiOjE3NzM3MTYwNDUsImV4cCI6MTc3MzgwMjQ0NX0.nIF8SvdN-cEmiZD2ocXz315YoXYcw0T1Fco4KhDO0wM
 Content-Type: application/json
 
 {
@@ -35,9 +39,75 @@ Content-Type: application/json
 
 ###
 # 400 wrong format
-PUT http://localhost:3000/api/images/69aa58691b3aa526bf385406
+PATCH http://localhost:3000/api/images/69aa58691b3aa526bf385406
 Content-Type: application/json
 
 {
     "email": "test"
+}
+
+###
+# User Credentials testing, Working new user
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "email": "test@test.com",
+    "password": "password123"
+}
+
+###
+# Creating user with errors
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "username": "test",
+    "password": "password"
+}
+
+###
+# Verifying password, correct user and password
+
+POST http://localhost:3000/api/auth/tokens
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "password123"
+}
+
+###
+POST http://localhost:3000/api/auth/tokens
+Content-Type: application/json
+
+{
+    "username": "chunkylover23",
+    "password": "password"
+}
+
+
+###
+# Incorrect password
+
+POST http://localhost:3000/api/auth/tokens
+Content-Type: application/json
+
+{
+    "username": "user1",
+    "password": "wrongpass"
+}
+
+###
+# Username does not exist
+
+POST http://localhost:3000/api/auth/tokens
+Content-Type: application/json
+
+{
+    "username": "nonexistentuser",
+    "password": "password"
 }

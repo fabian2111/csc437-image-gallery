@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 
-export default function useFetch(imageId){
+export default function useFetch(imageId, authToken){
 
     const [imageData, _setImageData] = useState([]);
     const [isFetching, setFetchState] = useState(true);
@@ -15,19 +15,33 @@ export default function useFetch(imageId){
     // (Or just twice in development mode)
         async function getData(){
         try{
-            const response = await fetch("/api/images");
+            const response = await fetch("/api/images", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${authToken.authToken}`,
+                },
+            });
 
             if(!response.ok){
                 throw new Error(`Error: HTTP ${response.status} ${response.statusText}`);
             }
             const result = await response.json();
             if(imageId != null){
-                const dbImg = await fetch(`/api/images/${imageId}`)
+                const dbImg = await fetch(`/api/images/${imageId}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${authToken.authToken}`
+                    }
+                })
+                //console.log(dbImg.status)
+
                 if(dbImg.status == 404){
                     throw new Error(`Error: HTTP ${dbImg.status} ${dbImg.statusText}`)
                 }
 
                 const img = await dbImg.json();
+
+                //console.log(dbImg)
 
                 _setImageData(img[0])
                 setImageName(img[0].name)
@@ -38,7 +52,7 @@ export default function useFetch(imageId){
         } catch(error) {
             //console.error(error.message);
             setErrorData(error.message);
-            _setImageData("")
+            _setImageData([])
         } finally {
             setFetchState(false);
         }

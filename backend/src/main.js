@@ -5,17 +5,26 @@ import { VALID_ROUTES } from "../../shared/ValidRoutes.js";
 import { connectMongo } from "./connectMongo.js";
 import { ImageProvider } from "./ImageProvider.js";
 import { registerImageRoutes } from "../routes/imagesRoutes.js";
+import { CredentialsProvider } from "./CredentialsProvider.js";
+import { registerAuthRoutes } from "../routes/authRoutes.js";
+import { verifyAuthToken } from "../routes/verifyAuthToken.js";
 
 
 const PORT = Number.parseInt(getEnvVar("PORT", false), 10) || 3000;
 const STATIC_DIR = getEnvVar("STATIC_DIR") || "public";
+const IMAGE_UPLOAD_DIR = getEnvVar("IMAGE_UPLOAD_DIR")
 const app = express();
 app.use(express.static(STATIC_DIR));
+app.use("/uploads", express.static(IMAGE_UPLOAD_DIR))
 
 const mongo = connectMongo();
 const images = new ImageProvider(mongo);
 
+const userCreds = new CredentialsProvider(mongo);
+
 registerImageRoutes(app, images)
+registerAuthRoutes(app, userCreds);
+
 
 app.get("/api/hello", (req, res) => {
     res.send("Hello, World " + SHARED_TEST);

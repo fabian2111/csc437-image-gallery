@@ -5,6 +5,8 @@ import { LoginPage } from "./LoginPage.jsx";
 import { Routes, Route } from "react-router";
 import { MainLayout } from "./MainLayout.jsx";
 import { VALID_ROUTES } from "../../shared/ValidRoutes.js";
+import { useState } from "react";
+import { ProtectedRoute } from "./ProtectedRoute.jsx"
 
 function App() {
     const POSSIBLE_PAGES = [
@@ -14,13 +16,28 @@ function App() {
         <LoginPage />
     ];
 
+    const [authToken, setAuthToken] = useState("");
+
     //return POSSIBLE_PAGES[0];
     return <Routes>
         <Route path={VALID_ROUTES.HOME} element={<MainLayout />}>
-        <Route index element={<AllImages />}></Route>
-        <Route path={VALID_ROUTES.IMAGE} element={<ImageDetails />} />
-        <Route path={VALID_ROUTES.UPLOAD} element={<UploadPage />} />
-        <Route path={VALID_ROUTES.LOGIN} element={<LoginPage />} />
+
+        <Route index element={<ProtectedRoute authToken={authToken}>
+            <AllImages authToken={authToken}></AllImages>
+        </ProtectedRoute>} />
+
+        <Route path={VALID_ROUTES.IMAGE} element={<ProtectedRoute authToken={authToken}>
+            <ImageDetails authToken={authToken}></ImageDetails>
+        </ProtectedRoute>} />
+
+        {/* <Route path={VALID_ROUTES.UPLOAD} element={<ProtectedRoute authToken={authToken}>
+            <UploadPage></UploadPage>
+        </ProtectedRoute>} /> */}
+
+        <Route path={VALID_ROUTES.UPLOAD} element={<UploadPage authToken={authToken}/>} />
+
+        <Route path={VALID_ROUTES.LOGIN} element={<LoginPage isRegistering={false} setAuthToken={setAuthToken}/>} />
+        <Route path={VALID_ROUTES.REGISTER} element={<LoginPage isRegistering={true} setAuthToken={setAuthToken}/>} />
     </Route>
     </Routes>
 }

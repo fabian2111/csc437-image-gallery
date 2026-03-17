@@ -8,10 +8,10 @@ import { ImageNameEditor } from "./ImageNameEditor.jsx"
 
 
 
-export function ImageDetails() {
+export function ImageDetails(authToken) {
     const { imageId } = useParams();
 
-    const [image, isFetching, errorData, imageName, setImageName] = useFetch(imageId);
+    const [image, isFetching, errorData, imageName, setImageName] = useFetch(imageId, authToken);
 
     //
     //const [imageName, setImageName] = useState(image.name);
@@ -76,7 +76,7 @@ export function ImageDetails() {
            {(!isFetching && errorData == "") && <>
            <h2>{imageName}</h2>
             <p>By {image.author.username}</p>
-            <ImageNameEditor imageId={image._id} updateImageName={updateImageName}></ImageNameEditor>
+            <ImageNameEditor imageId={image._id} updateImageName={updateImageName} authToken={authToken}></ImageNameEditor>
             <img className="ImageDetails-img" src={image.src} alt={image.name} />
             </>}
         </>
