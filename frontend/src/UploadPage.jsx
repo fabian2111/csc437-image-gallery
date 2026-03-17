@@ -8,9 +8,9 @@ export function UploadPage(authToken) {
 
     const navigate = useNavigate();
 
-    function handleFileUpload(e){
+    async function handleFileUpload(e){
         const file = e.target.files[0];
-        const url = readAsDataURL(file);
+        const url = await readAsDataURL(file);
         setFileURL(url);
     }
 
